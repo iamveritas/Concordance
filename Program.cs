@@ -89,24 +89,7 @@ namespace Concordance
 
         public void Start()
         {
-            // ask the user if it wants to enter the text manually or see the program in action 
-            // using the statically linked input text 
-            Console.WriteLine("Do you want to:\n\t(1) enter input text manually or\n\t(2) use the hardcoded input text demo?\n\ttype 1 or 2 followed by ENTER");
-            string lineRead = Console.ReadLine();
-
-            if (lineRead.Equals("1"))
-                inputText = null;
-            else
-            {
-                Console.WriteLine("You chose to use the statically linked demo input text below:\n");
-                Console.WriteLine(inputText);
-            }
-
-            // make sure we have an input text
-            if (string.IsNullOrEmpty(inputText))
-            {
-                inputText = ReadInputTextFromConsole();
-            }
+            InitializeInputText();
 
             // INVARIANT: we have input text initialized (one way or the other)
 
@@ -128,7 +111,7 @@ namespace Concordance
 
                 string[] words = sentences[sentenceIdx].Split(wordSeparators);
                 
-                // process each word 
+                // process each word and add to its own concordance
                 foreach (string wordToken in words)
                 {
                     // INVARIANT: we are in sentence identified by zero based index sentenceIdx 
@@ -143,12 +126,13 @@ namespace Concordance
                             WordConcordance wordConcordance = new WordConcordance();
                             concordance.Add(word, wordConcordance);
                         }
+                        // update word concordance with this new instance found
                         concordance[word].Add(sentenceIdx);
                     }
                 }
             }
 
-            // sort them alfabetically
+            // sort all words alfabetically
             IOrderedEnumerable<KeyValuePair<string, WordConcordance>> concordanceKVP = concordance.OrderBy(s => s.Key);
 
             // list the resulted concordance
@@ -175,6 +159,27 @@ namespace Concordance
             return cleanedWord.ToLowerInvariant();
         }
 
+        private void InitializeInputText()
+        {
+            // ask the user if it wants to enter the text manually or see the program in action 
+            // using the statically linked input text 
+            Console.WriteLine("Do you want to:\n\t(1) enter input text manually or\n\t(2) use the hardcoded input text demo?\n\ttype 1 or 2 followed by ENTER");
+            string lineRead = Console.ReadLine();
+
+            if (lineRead.Equals("1"))
+                inputText = null;
+            else
+            {
+                Console.WriteLine("You chose to use the statically linked demo input text below:\n");
+                Console.WriteLine(inputText);
+            }
+
+            // make sure we have an input text
+            if (string.IsNullOrEmpty(inputText))
+            {
+                inputText = ReadInputTextFromConsole();
+            }
+        }
         /// <summary>
         /// This function reads input text from console and returns it
         /// </summary>
