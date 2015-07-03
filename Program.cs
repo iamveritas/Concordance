@@ -89,6 +89,19 @@ namespace Concordance
 
         public void Start()
         {
+            // ask the user if it wants to enter the text manually or see the program in action 
+            // using the statically linked input text 
+            Console.WriteLine("Do you want to:\n\t(1) enter input text manually or\n\t(2) use the hardcoded input text demo?\n\ttype 1 or 2 followed by ENTER");
+            string lineRead = Console.ReadLine();
+
+            if (lineRead.Equals("1"))
+                inputText = null;
+            else
+            {
+                Console.WriteLine("You chose to use the statically linked demo input text below:\n");
+                Console.WriteLine(inputText);
+            }
+
             // make sure we have an input text
             if (string.IsNullOrEmpty(inputText))
             {
@@ -139,8 +152,9 @@ namespace Concordance
             IOrderedEnumerable<KeyValuePair<string, WordConcordance>> concordanceKVP = concordance.OrderBy(s => s.Key);
 
             // list the resulted concordance
+            Console.WriteLine("\nThe Concordance Computed is:\n");
             foreach (KeyValuePair<string, WordConcordance> kvp in concordanceKVP)
-                Console.WriteLine("{0}\t{1}", kvp.Key, kvp.Value.ToString());
+                Console.WriteLine("{0}\t\t\t{1}", kvp.Key, kvp.Value.ToString());
         }
 
         /// <summary>
@@ -170,13 +184,35 @@ namespace Concordance
             bool bKeepReading = true;
             StringBuilder inputBuildder = new StringBuilder(250);
 
+            Console.WriteLine("Please type the text to generate the concordance for. Press ESC when you are done typing.\n");
+
             while (bKeepReading)
             {
-                ConsoleKeyInfo consoleKeyInfo = Console.ReadKey(true);
+                ConsoleKeyInfo consoleKeyInfo = Console.ReadKey(false);
 
                 // if ESC is pressed stop reading
                 if (consoleKeyInfo.Key == ConsoleKey.Escape)
+                {
                     bKeepReading = false;
+                    // delete the ESC char which was just printed on the console
+                    Console.SetCursorPosition(Console.CursorLeft - 1 >= 0 ? Console.CursorLeft - 1 : 0, Console.CursorTop);
+                    Console.WriteLine(" ");
+                }
+                else if (consoleKeyInfo.Key == ConsoleKey.Enter)
+                {
+                    Console.WriteLine();
+                    inputBuildder.Append("\n\r");
+                }
+                else if (consoleKeyInfo.Key == ConsoleKey.Backspace)
+                {
+                    // delete the last char by overwritting it with space 
+                    Console.Write(" ");
+                    if (Console.CursorLeft - 1 >= 0 && inputBuildder.ToString().Length - 1 >= 0)
+                    {
+                        inputBuildder.Remove(inputBuildder.ToString().Length - 1, 1);
+                    }
+                    Console.SetCursorPosition(Console.CursorLeft - 1 >= 0 ? Console.CursorLeft - 1 : 0, Console.CursorTop); 
+                }
                 else
                 {
                     inputBuildder.Append(consoleKeyInfo.KeyChar);
