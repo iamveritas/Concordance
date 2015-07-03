@@ -67,7 +67,7 @@ namespace Concordance
 
         private char[] sentenceSeparators = new char[] { '.', '!', '?', ';' };
         private char[] wordSeparators = new char[] { ' ', '\r', '\n' };
-        private char[] workTokenExcessChars = new char[] { ' ', ',', ':', '-', '\'', '"', '(', ')', '{', '}', '[', ']' };
+        private char[] wordTokenExcessChars = new char[] { ' ', ',', ':', '-', '\'', '"', '(', ')', '{', '}', '[', ']' };
 
         // this abreviations dictionary has to be completed
         private string[] wordAbreviations = new string[] { "ex.", "e.g.", "i.e"};
@@ -164,7 +164,7 @@ namespace Concordance
         /// <returns></returns>
         private string CleanWordToken(string wordToken)
         {
-            string cleanedWord = wordToken.Trim(workTokenExcessChars);
+            string cleanedWord = wordToken.Trim(wordTokenExcessChars);
             wordToken = cleanedWord.Trim(sentenceSeparators);
             cleanedWord = wordToken.Trim(wordSeparators);
 
