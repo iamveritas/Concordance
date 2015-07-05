@@ -10,9 +10,7 @@ zero-indexed sentence number in which that word occurs. You may assume that the 
 contains only spaces, newlines, standard English letters, and standard English punctuation
 marks.
 
-Below is an example of what your program would compute for the paragraph above. (The
-particular formatting below isn't required, as long as you output the word, number of
-occurrences, and list of sentence numbers.)
+Below is an example of what the program computes for the paragraph above.
 
 
     a            {6:0,0,0,1,1,1}      of           {6:0,0,0,1,1,2}
