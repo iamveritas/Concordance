@@ -9,16 +9,14 @@ namespace Concordance
     // this class encapsulates a concordance for one single word; e.g. {6:0,0,0,1,1,2}
     class WordConcordance
     {
-        private int numberOfOccurances;
-        private string tail;
+        private List<int> positions;
 
         /// <summary>
         /// Ctor public
         /// </summary>
         public WordConcordance()
         {
-            this.numberOfOccurances = 0;
-            this.tail = string.Empty;
+            this.positions = new List<int>(7);
         }
 
         /// <summary>
@@ -26,7 +24,7 @@ namespace Concordance
         /// </summary>
         public int NumberOfOccurances
         {
-            get { return numberOfOccurances; }
+            get { return this.positions.Count(); }
         }
 
         /// <summary>
@@ -35,12 +33,7 @@ namespace Concordance
         /// <param name="sentenceIndex">zero based index for sentence</param>
         public void Add(int sentenceIndex)
         {
-            if (string.IsNullOrEmpty(tail))
-                tail = string.Format("{0}", sentenceIndex);
-            else
-                tail = string.Format("{0},{1}", tail, sentenceIndex);
-            
-            this.numberOfOccurances++;
+            this.positions.Add(sentenceIndex);
         }
 
         /// <summary>
@@ -49,7 +42,14 @@ namespace Concordance
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{{{0}:{1}}}", this.numberOfOccurances, this.tail);
+            string stringRepresentation = string.Format("{0}:", this.positions.Count());
+            for (int idx = 0; idx < positions.Count - 1; idx++ )
+            {
+                stringRepresentation += string.Format("{0},", positions[idx]);
+            }
+            if (positions.Count - 1 >= 0)
+                stringRepresentation += string.Format("{0}", positions[positions.Count - 1]);
+            return string.Format("{{{0}}}", stringRepresentation);
         }
     }
 
