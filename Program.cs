@@ -51,6 +51,18 @@ namespace Concordance
                 stringRepresentation += string.Format("{0}", positions[positions.Count - 1]);
             return string.Format("{{{0}}}", stringRepresentation);
         }
+
+
+        /// <summary>
+        /// returns the data represantation for this word concordance
+        /// </summary>
+        /// <returns></returns>
+        public int[] GetData()
+        {
+            int[] data = new int[this.positions.Count];
+            this.positions.CopyTo(data);
+            return data;
+        }
     }
 
     class Program
